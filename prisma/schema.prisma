@@ -57,6 +57,8 @@ model Comment {
   authorId    Int?
 }
 
+// ENUM
+
 // Role
 enum Role {
   USER
