@@ -1,6 +1,14 @@
 const asyncHandler = require("express-async-handler");
 
 const getAllPosts = asyncHandler(async (req, res) => {
+    const posts = await prisma.post.findMany({
+        include: {
+            author: true,
+            comments: true,
+        },
+    });
+    
+    res.status(200).json(posts);
 
 });
 
