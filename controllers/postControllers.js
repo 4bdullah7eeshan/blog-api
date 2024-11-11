@@ -33,6 +33,22 @@ const getPostById = asyncHandler(async (req, res) => {
 });
 
 const createPost = asyncHandler(async (req, res) => {
+    const { title, content } = req.body;
+    
+    if (!title || !content) {
+        res.status(400).json({ message: "Title and content are required" });
+        return;
+    }
+
+    const post = await prisma.post.create({
+        data: {
+            title,
+            content,
+            authorId: req.user.id,
+        },
+    });
+
+    res.status(201).json(post);
 
 });
 
