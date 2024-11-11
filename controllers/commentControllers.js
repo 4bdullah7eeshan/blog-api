@@ -10,6 +10,11 @@ const createComment = asyncHandler(async (req, res) => {
 
 });
 
+const getCommentById = asyncHandler(async (req, res) => {
+    const { id } = req.params; // id of the comment
+
+});
+
 const deleteComment = asyncHandler(async (req, res) => {
     const { id } = req.params; // id of the comment
 
@@ -18,5 +23,6 @@ const deleteComment = asyncHandler(async (req, res) => {
 module.exports = {
     getCommentsByPostId,
     createComment,
+    getCommentById,
     deleteComment,
 };
