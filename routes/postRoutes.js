@@ -1,15 +1,17 @@
 const { Router } = require("express");
 const postController = require("../controllers/postControllers");
 const commentRouter = require("./commentRoutes");
+const authenticateJwt = require("../middlewares/authenticateJwt");
+
 
 
 const postRouter = Router();
 
 postRouter.get("/", postController.getAllPosts);
 postRouter.get("/:id", postController.getPostById);
-postRouter.post("/", postController.createPost);
-postRouter.put("/:id", postController.updatePost);
-postRouter.delete("/:id", postController.deletePost);
+postRouter.post("/", authenticateJwt, postController.createPost);
+postRouter.put("/:id", authenticateJwt, postController.updatePost);
+postRouter.delete("/:id", authenticateJwt, postController.deletePost);
 
 postRouter.use("/:postId/comments", commentRouter);
 
