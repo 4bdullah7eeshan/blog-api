@@ -13,6 +13,8 @@ require("./config/passport")(passport);
 
 
 const app = express();
+const prisma = new PrismaClient();
+
 
 app.use(cors());
 app.use(express.json());
