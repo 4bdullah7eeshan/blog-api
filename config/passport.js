@@ -24,6 +24,25 @@ module.exports = (passport) => {
     })
   );
 
+  passport.use(
+    new JwtStrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: jwtSecret,
+      },
+      async (jwtPayload, done) => {
+        try {
+          const user = await prisma.user.findUnique({ where: { id: jwtPayload.id } });
+          if (user) return done(null, user);
+          else return done(null, false);
+        } catch (error) {
+          return done(error, false);
+        }
+      }
+    )
+  );
+
+
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });
