@@ -48,6 +48,11 @@ const getCommentById = asyncHandler(async (req, res) => {
         },
     });
 
+    if (!comment) {
+        res.status(404).json({ message: "Comment not found" });
+        return;
+    }
+
     res.status(200).json(comment);
 
 });
