@@ -7,13 +7,28 @@ const getAllPosts = asyncHandler(async (req, res) => {
             comments: true,
         },
     });
-    
+
     res.status(200).json(posts);
 
 });
 
 const getPostById = asyncHandler(async (req, res) => {
-    const { id } = req.params; // id must be there
+    const { id } = req.params;
+
+    const post = await prisma.post.findUnique({
+        where: { id: Number(id) },
+        include: {
+            author: true,
+            comments: true,
+        },
+    });
+
+    if (!post) {
+        res.status(404).json({ message: "Post not found" });
+        return;
+    }
+    
+    res.status(200).json(post);
     
 });
 
