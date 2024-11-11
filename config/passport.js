@@ -4,6 +4,8 @@ const { ExtractJwt } = require("passport-jwt");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const jwtSecret = process.env.JWT_SECRET;
+
 
 module.exports = (passport) => {
   passport.use(
