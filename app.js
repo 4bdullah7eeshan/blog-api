@@ -15,6 +15,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(
+    session({
+      cookie: {
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      },
+      secret: "a santa at nasa",
+      resave: false,
+      saveUninitialized: false,
+      store: new PrismaSessionStore(prisma, {
+        checkPeriod: 2 * 60 * 1000, // 2 minutes
+        dbRecordIdIsSessionId: true,
+      }),
+    })
+);
+
 app.use("/auth", userRouter);
 app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
