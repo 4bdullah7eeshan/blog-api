@@ -1,4 +1,7 @@
 const asyncHandler = require("express-async-handler");
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 const getAllPosts = asyncHandler(async (req, res) => {
     const posts = await prisma.post.findMany({
