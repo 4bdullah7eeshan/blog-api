@@ -11,7 +11,7 @@ const createComment = asyncHandler(async (req, res) => {
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
-    const { id } = req.params; // id of the post
+    const { id } = req.params; // id of the comment
 
 });
 
