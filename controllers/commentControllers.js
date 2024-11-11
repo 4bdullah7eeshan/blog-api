@@ -58,7 +58,22 @@ const getCommentById = asyncHandler(async (req, res) => {
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
-    const { id } = req.params; // id of the comment
+    const { id } = req.params;
+
+    const comment = await prisma.comment.findUnique({
+        where: { id: Number(id) },
+    });
+
+    if (!comment) {
+        res.status(404).json({ message: "Comment not found" });
+        return;
+    }
+
+    await prisma.comment.delete({
+        where: { id: Number(id) },
+    });
+
+    res.status(200).json({ message: "Comment deleted successfully" });
 
 });
 
