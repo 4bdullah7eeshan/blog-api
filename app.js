@@ -1,5 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const passport = require("passport");
+const { PrismaClient } = require("@prisma/client");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+
 
 const userRouter = require("./routes/userRoutes");
 const postRouter = require("./routes/postRoutes");
