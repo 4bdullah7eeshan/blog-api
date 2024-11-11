@@ -54,11 +54,47 @@ const createPost = asyncHandler(async (req, res) => {
 
 const updatePost = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    const { title, content, published } = req.body;
+
+    const post = await prisma.post.findUnique({
+        where: { id: Number(id) },
+    });
+
+    if (!post) {
+        res.status(404).json({ message: "Post not found" });
+        return;
+    }
+
+    const updatedPost = await prisma.post.update({
+        where: { id: Number(id) },
+        data: {
+            title: title || post.title,
+            content: content || post.content,
+            published: published !== undefined ? published : post.published,
+        },
+    });
+
+    res.status(200).json(updatedPost);
 
 });
 
 const deletePost = asyncHandler(async (req, res) => {
     const { id } = req.params;
+
+    const post = await prisma.post.findUnique({
+        where: { id: Number(id) },
+    });
+
+    if (!post) {
+        res.status(404).json({ message: "Post not found" });
+        return;
+    }
+
+    await prisma.post.delete({
+        where: { id: Number(id) },
+    });
+
+    res.status(200).json({ message: "Post deleted successfully" });
 
 });
 
