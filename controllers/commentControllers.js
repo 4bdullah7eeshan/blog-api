@@ -19,9 +19,16 @@ const getCommentsByPostId = asyncHandler(async (req, res) => {
 
 const createComment = asyncHandler(async (req, res) => {
     const { postId } = req.params;
+    const { content } = req.body;
+
+    if (!content) {
+        res.status(400).json({ message: "Content is required for the comment" });
+        return;
+    }
 
     const comment = await prisma.comment.create({
         data: {
+            content,
             postId: Number(postId),
             authorId: req.user.id,
         },
