@@ -39,7 +39,16 @@ const createComment = asyncHandler(async (req, res) => {
 });
 
 const getCommentById = asyncHandler(async (req, res) => {
-    const { id } = req.params; // id of the comment
+    const { id } = req.params;
+
+    const comment = await prisma.comment.findUnique({
+        where: { id: Number(id) },
+        include: {
+            author: true,
+        },
+    });
+
+    res.status(200).json(comment);
 
 });
 
