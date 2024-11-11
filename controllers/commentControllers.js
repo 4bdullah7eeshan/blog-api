@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const getCommentsByPostId = asyncHandler(async (req, res) => {
     const { postId } = req.params;
-    
+
     const comments = await prisma.comment.findMany({
         where: { postId: Number(postId) },
         include: {
@@ -19,6 +19,15 @@ const getCommentsByPostId = asyncHandler(async (req, res) => {
 
 const createComment = asyncHandler(async (req, res) => {
     const { postId } = req.params;
+
+    const comment = await prisma.comment.create({
+        data: {
+            postId: Number(postId),
+            authorId: req.user.id,
+        },
+    });
+
+    res.status(201).json(comment);
 
 });
 
