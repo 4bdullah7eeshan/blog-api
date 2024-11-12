@@ -26,6 +26,15 @@ const createComment = asyncHandler(async (req, res) => {
         return;
     }
 
+    // Handle no post situation
+    const post = await prisma.post.findUnique({
+        where: { id: Number(postId) },
+    });
+
+    if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+    }
+
     const comment = await prisma.comment.create({
         data: {
             content,
