@@ -68,10 +68,10 @@ const getCommentById = asyncHandler(async (req, res) => {
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { commentId } = req.params;
 
     const comment = await prisma.comment.findUnique({
-        where: { id: Number(id) },
+        where: { id: Number(commentId) },
     });
 
     if (!comment) {
