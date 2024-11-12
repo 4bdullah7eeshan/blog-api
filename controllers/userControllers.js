@@ -19,7 +19,22 @@ const signup = asyncHandler(async (req, res) => {
 });
 
 const login = asyncHandler(async (req, res) => {
-    const token = jwt.sign({ id: req.user.id }, jwtSecret, { expiresIn: jwtExpiry });
+    const { username, password } = req.body;
+
+    const user = await prisma.user.findUnique({
+        where: { username }
+    });
+
+    if (!user) {
+        return res.status(400).json({ message: "User not found" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign({ userId: user.id, role: user.role }, jwtSecret, { expiresIn: jwtExpiry });
     res.json({ message: "Login successful", user: req.user, token });
 });
 
