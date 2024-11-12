@@ -68,6 +68,11 @@ const updatePost = asyncHandler(async (req, res) => {
         return;
     }
 
+    if (post.authorId !== req.user.id && req.user.role !== 'AUTHOR') {
+        res.status(403).json({ message: "You are not authorized to edit this post" });
+        return;
+    }
+
     const updatedPost = await prisma.post.update({
         where: { id: Number(id) },
         data: {
@@ -90,6 +95,11 @@ const deletePost = asyncHandler(async (req, res) => {
 
     if (!post) {
         res.status(404).json({ message: "Post not found" });
+        return;
+    }
+
+    if (post.authorId !== req.user.id && req.user.role !== 'AUTHOR') {
+        res.status(403).json({ message: "You are not authorized to delete this post" });
         return;
     }
 
