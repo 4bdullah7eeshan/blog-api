@@ -15,5 +15,8 @@ postRouter.delete("/:id", authenticateJwt, postController.deletePost);
 
 postRouter.use("/:postId/comments", commentRouter);
 
+postRouter.get("/author/posts", authenticateJwt, postController.getPostsByAuthor);
+
+
 
 module.exports = postRouter;

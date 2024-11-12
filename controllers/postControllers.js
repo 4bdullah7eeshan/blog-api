@@ -111,10 +111,26 @@ const deletePost = asyncHandler(async (req, res) => {
 
 });
 
+const getPostsByAuthor = asyncHandler(async (req, res) => {
+    const authorId = req.user.id;
+
+    const posts = await prisma.post.findMany({
+        where: { authorId },
+        include: {
+            author: true,
+            comments: true,
+        },
+    });
+
+    res.status(200).json(posts);
+});
+
+
 module.exports = {
     getAllPosts,
     getPostById,
     createPost,
     updatePost,
     deletePost,
+    getPostsByAuthor,
 };
