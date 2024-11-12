@@ -79,6 +79,11 @@ const deleteComment = asyncHandler(async (req, res) => {
         return;
     }
 
+    if (comment.authorId !== req.user.id && req.user.role !== 'AUTHOR') {
+        res.status(403).json({ message: "You are not authorized to delete this comment" });
+        return;
+    }
+
     await prisma.comment.delete({
         where: { id: Number(id) },
     });
