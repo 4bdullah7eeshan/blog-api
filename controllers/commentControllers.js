@@ -85,7 +85,7 @@ const deleteComment = asyncHandler(async (req, res) => {
     }
 
     await prisma.comment.delete({
-        where: { id: Number(id) },
+        where: { id: Number(commentId) },
     });
 
     res.status(200).json({ message: "Comment deleted successfully" });
