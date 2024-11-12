@@ -14,6 +14,12 @@ datasource db {
 }
 
 // MODELS
+model Session {
+  id         String   @id
+  sid        String   @unique
+  data       String
+  expiresAt  DateTime
+}
 
 // User: Refactor the following later as needed
 model User {
